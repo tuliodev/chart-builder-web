@@ -1,4 +1,5 @@
 import ProjectDescriptionEditableText from "./ProjectDescriptionEditableText ";
+import ProjectsMenu from "./ProjectsMenu";
 import ProjectTitleEditableText from "./ProjectTitleEditableText";
 
 export default function SubHeader() {
@@ -8,11 +9,10 @@ export default function SubHeader() {
         <ProjectTitleEditableText initialText="Untitled" />
         <ProjectDescriptionEditableText initialText="+ Add description..." />
       </div>
-      <button className="border border-[#E2E8F0] p-2 rounded-md hover:opacity-75">
-        <p className="font-medium text-xs mx-14 hover:opacity-75">
-          Projects(2)
-        </p>
-      </button>
+      <div className="mx-14">
+        {" "}
+        <ProjectsMenu />
+      </div>
     </div>
   );
 }
