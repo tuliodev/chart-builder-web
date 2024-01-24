@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 
 const roboto = Inter({
-  weight: "600",
   subsets: ["latin"],
 });
 

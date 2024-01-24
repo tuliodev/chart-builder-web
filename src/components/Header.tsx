@@ -18,10 +18,10 @@ export default function Header() {
     <header className="bg-primary-blue p-5 flex flex-row justify-between">
       <div className="flex flex-row gap-8 items-center">
         <Image priority src={logoImg} height={80} width={80} alt="Logo" />
-        <p className="hidden sm:flex text-white cursor-pointer hover:opacity-75">
+        <p className="hidden sm:flex text-white cursor-pointer hover:opacity-75 font-semibold text-sm">
           Boards
         </p>
-        <p className="text-white hidden sm:flex flex-row items-center gap-1 cursor-pointer hover:opacity-75">
+        <p className="text-white hidden sm:flex flex-row items-center gap-1 cursor-pointer hover:opacity-75 font-semibold text-sm">
           Reports{" "}
           <Image
             priority
@@ -58,7 +58,7 @@ export default function Header() {
             width={40}
             alt="User Icon"
           />
-          <span className="cursor-pointer hover:opacity-75 flex flex-row items-center gap-2">
+          <span className="cursor-pointer hover:opacity-75 flex flex-row items-center gap-2 font-semibold text-sm">
             John Smith{" "}
             <Image
               priority
@@ -101,8 +101,10 @@ export default function Header() {
           <button onClick={toggleMenu} className="text-white mb-2 text-2xl">
             X
           </button>
-          <p className="text-white cursor-pointer hover:opacity-75">Boards</p>
-          <p className="text-white cursor-pointer hover:opacity-75 flex items-center gap-1">
+          <p className="text-white cursor-pointer hover:opacity-75 text-sm font-semibold">
+            Boards
+          </p>
+          <p className="text-white cursor-pointer hover:opacity-75 flex items-center gap-1 text-sm font-semibold">
             Reports{" "}
           </p>
           <div className="flex flex-row gap-1">
