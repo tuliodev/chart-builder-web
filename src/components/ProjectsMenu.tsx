@@ -28,12 +28,12 @@ export default function ProjectsMenu() {
       <DropdownMenuContent className="w-56">
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <DropdownMenuLabel>
-            <p className="font-medium text-xs mx-14 hover:opacity-75 text-center cursor-pointer text-primary-blue">
+            <p className="font-medium text-xs  hover:opacity-75 cursor-pointer text-primary-blue">
               ChainSkope
             </p>
           </DropdownMenuLabel>
           <DropdownMenuLabel>
-            <p className="font-medium text-xs mx-14 hover:opacity-75 text-center cursor-pointer">
+            <p className="font-medium text-xs  hover:opacity-75 cursor-pointer">
               Project 2
             </p>
           </DropdownMenuLabel>
