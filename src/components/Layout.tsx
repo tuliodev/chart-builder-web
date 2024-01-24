@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 
-const roboto = Inter({
+const fontSans = FontSans({
   subsets: ["latin"],
 });
 
@@ -11,6 +11,8 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <main className={`h-screen w-screen ${roboto.className}`}>{children}</main>
+    <main className={`h-screen w-screen ${fontSans.className}`}>
+      {children}
+    </main>
   );
 }
