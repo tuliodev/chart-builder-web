@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import UserSettingsMenu from "./UserSettingsMenu";
+
 import chevronDownIcon from "@/assets/img/icons/chevron-down.svg";
 import helpCircleIcon from "@/assets/img/icons/help-circle-contained.svg";
 import settingsIcon from "@/assets/img/icons/settings.svg";
@@ -50,25 +52,7 @@ export default function Header() {
           alt="Settings"
           className="cursor-pointer hover:opacity-75"
         />
-        <p className="text-white flex flex-row items-center gap-2">
-          <Image
-            priority
-            src={userIcon}
-            height={40}
-            width={40}
-            alt="User Icon"
-          />
-          <span className="cursor-pointer hover:opacity-75 flex flex-row items-center gap-2 font-semibold text-sm">
-            John Smith{" "}
-            <Image
-              priority
-              src={chevronDownIcon}
-              height={20}
-              width={20}
-              alt="Chevron down icon"
-            />
-          </span>
-        </p>
+        <UserSettingsMenu />
       </div>
 
       <div className="sm:hidden flex items-center">
