@@ -11,7 +11,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <main className={`h-screen w-screen ${fontSans.className}`}>
+    <main className={`h-screen w-screen ${fontSans.className} overflow-hidden`}>
       {children}
     </main>
   );

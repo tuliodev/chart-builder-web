@@ -17,7 +17,7 @@ export default function ProjectsMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="w-56">
+      <DropdownMenuTrigger asChild className="w-52 sm:w-56">
         <Button variant="outline" className="outline-none border-">
           {" "}
           <p className="font-medium text-xs mx-14 hover:opacity-75">
@@ -25,7 +25,7 @@ export default function ProjectsMenu() {
           </p>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-52 sm:w-56">
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <DropdownMenuLabel>
             <p className="font-medium text-xs  hover:opacity-75 cursor-pointer text-primary-blue">
