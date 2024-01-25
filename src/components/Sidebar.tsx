@@ -18,8 +18,8 @@ export default function SiderBar() {
         <AccordionItem value="datasource">
           <AccordionTrigger>Datasource</AccordionTrigger>
           <AccordionContent>
-            <div className="border-2 rounded-md p-3 w-max">
-              <div className="flex flex-col gap-4 p-3 w-max border-b overflow-y-scroll no-scrollbar h-36">
+            <div className="border-2 rounded-md p-3 w-full">
+              <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-36">
                 {currentDatasources.map((data) => {
                   return (
                     <div className="flex items-center space-x-2">
@@ -37,7 +37,7 @@ export default function SiderBar() {
                         htmlFor="terms"
                         className="text-xs font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        {data.chain_name}
+                        {data.name}
                       </label>
                     </div>
                   );
