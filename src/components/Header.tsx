@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import ProjectsMenu from "./ProjectsMenu";
 import UserSettingsMenu from "./UserSettingsMenu";
 
 import chevronDownIcon from "@/assets/img/icons/chevron-down.svg";
@@ -44,14 +45,7 @@ export default function Header() {
           alt="Help Circle"
           className="cursor-pointer hover:opacity-75"
         />
-        <Image
-          priority
-          src={settingsIcon}
-          height={26}
-          width={26}
-          alt="Settings"
-          className="cursor-pointer hover:opacity-75"
-        />
+        <ProjectsMenu />
         <UserSettingsMenu />
       </div>
 

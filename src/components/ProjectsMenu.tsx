@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
+import settingsIcon from "@/assets/img/icons/settings.svg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,16 +18,24 @@ export default function ProjectsMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="w-52 sm:w-56">
-        <Button variant="outline" className="outline-none border-">
-          {" "}
-          <p className="font-medium text-xs mx-14 hover:opacity-75">
-            Projects (2)
-          </p>
-        </Button>
+      <DropdownMenuTrigger asChild>
+        <Image
+          priority
+          src={settingsIcon}
+          height={26}
+          width={26}
+          alt="Settings"
+          className="cursor-pointer hover:opacity-75"
+        />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52 sm:w-56">
+      <DropdownMenuContent className="w-52 sm:w-56" sideOffset={20}>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuLabel>
+            <p className="font-medium text-xs mx-14 hover:opacity-75 cursor-pointer">
+              Projects (2)
+            </p>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <DropdownMenuLabel>
             <p className="font-medium text-xs  hover:opacity-75 cursor-pointer text-primary-blue">
               ChainSkope

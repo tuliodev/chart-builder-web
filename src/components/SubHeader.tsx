@@ -1,5 +1,4 @@
 import ProjectDescriptionEditableText from "./ProjectDescriptionEditableText ";
-import ProjectsMenu from "./ProjectsMenu";
 import ProjectTitleEditableText from "./ProjectTitleEditableText";
 
 export default function SubHeader() {
@@ -8,10 +7,6 @@ export default function SubHeader() {
       <div className="flex flex-wrap gap-4 items-center">
         <ProjectTitleEditableText initialText="Untitled" />
         <ProjectDescriptionEditableText initialText="+ Add description..." />
-      </div>
-      <div className="mx-14">
-        {" "}
-        <ProjectsMenu />
       </div>
     </div>
   );
