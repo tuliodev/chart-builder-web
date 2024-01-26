@@ -1,5 +1,9 @@
 import { useContext } from "react";
 
+import { CheckedState } from "@radix-ui/react-checkbox";
+
+import MetricCard from "./MetricCard";
+
 import {
   Accordion,
   AccordionContent,
@@ -11,19 +15,34 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DatasourceContext } from "@/contexts/Datasource";
 
 export default function SiderBar() {
-  const { currentDatasources } = useContext(DatasourceContext);
+  const {
+    currentDatasources,
+    handleSelectedDatasource,
+    selectedDatasources,
+    currentMetrics,
+  } = useContext(DatasourceContext);
+
+  const handleDatasourceCheckbox = (checked: CheckedState, id: string) => {
+    handleSelectedDatasource(id, checked);
+  };
+
   return (
-    <div className="hidden sm:flex flex-col gap-3 items-center w-96 h-screen border-r border-[#E2E8F0] bg-[#F7FAFC] p-5">
-      <Accordion type="single" collapsible className="w-full ">
+    <div className="hidden sm:flex flex-col items-center w-96 overflow-y-scroll no-scrollbar relative h-screen border-r border-[#E2E8F0] bg-[#F7FAFC] p-5">
+      <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="datasource">
           <AccordionTrigger>Datasource</AccordionTrigger>
           <AccordionContent>
             <div className="border-2 rounded-md p-3 w-full">
-              <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-36">
+              <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-32">
                 {currentDatasources.map((data) => {
                   return (
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="terms" />
+                      <Checkbox
+                        id={data.id}
+                        onCheckedChange={(event) => {
+                          handleDatasourceCheckbox(event, data.id);
+                        }}
+                      />
                       <Avatar>
                         <AvatarImage
                           src={
@@ -54,7 +73,30 @@ export default function SiderBar() {
       <Accordion type="single" collapsible className="w-full ">
         <AccordionItem value="metrics">
           <AccordionTrigger>Metrics</AccordionTrigger>
-          <AccordionContent>Metrics</AccordionContent>
+          <AccordionContent>
+            {selectedDatasources.length > 0 && (
+              <div className="overflow-y-scroll no-scrollbar h-52">
+                {selectedDatasources.map((data) => (
+                  <div id={data.id} className="flex flex-col gap-2">
+                    {currentMetrics.map((metric) => (
+                      <MetricCard
+                        id={metric.id}
+                        contract_chain_name={data.chain_name}
+                        metric_description={metric.metric_description}
+                        metric_display_name={metric.metric_display_name}
+                        contract_name={data.name}
+                        contract_type={data.contract_type}
+                        operations={metric.operations}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+            {selectedDatasources.length === 0 && (
+              <h1>Please select a datasource</h1>
+            )}
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
 
