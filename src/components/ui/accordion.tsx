@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { ChevronDown, Plus } from "lucide-react";
+import { LucideProps } from "lucide-react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 
 import { cn } from "@/lib/utils";
@@ -19,8 +19,10 @@ AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
+    icon: React.ForwardRefExoticComponent<LucideProps>;
+  }
+>(({ className, children, icon: Icon, ...props }, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleToggle = () => {
@@ -38,16 +40,15 @@ const AccordionTrigger = React.forwardRef<
         {...props}
         onClick={handleToggle}
       >
-        <span className="font-semibold text-sm ">{children}</span>
-        {isOpen ? (
-          <ChevronDown className="h-6 w-6 shrink-0 transition-transform duration-200 text-[#1A202C]" />
-        ) : (
-          <Plus className="h-6 w-6 shrink-0 transition-transform duration-200 text-[#1A202C]" />
+        <span className="font-semibold text-sm">{children}</span>
+        {Icon && (
+          <Icon className="h-6 w-6 shrink-0 transition-transform duration-200 text-[#1A202C]" />
         )}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
 });
+
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionContent = React.forwardRef<

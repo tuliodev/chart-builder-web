@@ -1,5 +1,6 @@
 import { useContext } from "react";
 
+import { ChevronDown, PlusIcon } from "lucide-react";
 import { CheckedState } from "@radix-ui/react-checkbox";
 
 import MetricCard from "./MetricCard";
@@ -30,7 +31,7 @@ export default function SiderBar() {
     <div className="hidden sm:flex flex-col items-center w-96 overflow-y-scroll no-scrollbar relative h-screen border-r border-[#E2E8F0] bg-[#F7FAFC] p-5">
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="datasource">
-          <AccordionTrigger>Datasource</AccordionTrigger>
+          <AccordionTrigger icon={ChevronDown}>Datasource</AccordionTrigger>
           <AccordionContent>
             <div className="border-2 rounded-md p-3 w-full">
               <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-32">
@@ -68,11 +69,9 @@ export default function SiderBar() {
             </div>
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
 
-      <Accordion type="single" collapsible className="w-full ">
         <AccordionItem value="metrics">
-          <AccordionTrigger>Metrics</AccordionTrigger>
+          <AccordionTrigger icon={PlusIcon}>Metrics</AccordionTrigger>
           <AccordionContent>
             {selectedDatasources.length > 0 && (
               <div className="overflow-y-scroll no-scrollbar h-52">
@@ -98,18 +97,14 @@ export default function SiderBar() {
             )}
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
 
-      <Accordion type="single" collapsible className="w-full ">
         <AccordionItem value="filter">
-          <AccordionTrigger>Filter</AccordionTrigger>
+          <AccordionTrigger icon={PlusIcon}>Filter</AccordionTrigger>
           <AccordionContent>Filter</AccordionContent>
         </AccordionItem>
-      </Accordion>
 
-      <Accordion type="single" collapsible className="w-full ">
         <AccordionItem value="Breakdown">
-          <AccordionTrigger>Datasource</AccordionTrigger>
+          <AccordionTrigger icon={PlusIcon}>Datasource</AccordionTrigger>
           <AccordionContent>Datasource</AccordionContent>
         </AccordionItem>
       </Accordion>
