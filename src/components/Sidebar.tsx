@@ -28,13 +28,13 @@ export default function SiderBar() {
   };
 
   return (
-    <div className="hidden sm:flex flex-col items-center w-96 overflow-y-scroll no-scrollbar relative h-screen border-r border-[#E2E8F0] bg-[#F7FAFC] p-5">
+    <div className="hidden sm:flex flex-col items-center w-96 relative h-screen border-r border-[#E2E8F0] bg-[#F7FAFC] p-5">
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="datasource">
           <AccordionTrigger icon={ChevronDown}>Datasource</AccordionTrigger>
           <AccordionContent>
             <div className="border-2 rounded-md p-3 w-full">
-              <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-32">
+              <div className="flex flex-col gap-4 w-full border-b overflow-y-scroll no-scrollbar h-44">
                 {currentDatasources.map((data) => {
                   return (
                     <div className="flex items-center space-x-2">
@@ -74,7 +74,7 @@ export default function SiderBar() {
           <AccordionTrigger icon={PlusIcon}>Metrics</AccordionTrigger>
           <AccordionContent>
             {selectedDatasources.length > 0 && (
-              <div className="overflow-y-scroll no-scrollbar h-52">
+              <div className="overflow-y-scroll no-scrollbar h-72">
                 {selectedDatasources.map((data) => (
                   <div id={data.id} className="flex flex-col gap-2">
                     {currentMetrics.map((metric) => (
