@@ -43,6 +43,9 @@ export default function SiderBar() {
                         onCheckedChange={(event) => {
                           handleDatasourceCheckbox(event, data.id);
                         }}
+                        checked={selectedDatasources.some(
+                          (selectedDt) => selectedDt.id === data.id,
+                        )}
                       />
                       <Avatar>
                         <AvatarImage
