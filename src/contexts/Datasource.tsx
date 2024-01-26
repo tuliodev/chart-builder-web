@@ -91,6 +91,11 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
       setSelectedDatasources((prevSelected) =>
         prevSelected.filter((item) => item.id !== id),
       );
+      const updatedOperations = selectedOperations.filter(
+        (operation) => !(operation.contract_id === id),
+      );
+
+      setSelectedOperations(updatedOperations);
     } else if (checked === true && !isSelected) {
       const selectedContract = currentDatasources.find(
         (item) => item.id === id,
