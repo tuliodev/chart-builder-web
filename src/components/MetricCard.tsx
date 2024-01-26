@@ -90,21 +90,27 @@ export default function MetricCard(metric: MetricCardProps) {
           </DropdownMenuLabel>
 
           <div className="overflow-y-scroll no-scrollbar h-40">
-            {metric.operations.map((operation) => (
-              <DropdownMenuLabel>
-                <p className="font-medium text-xs  hover:opacity-75 cursor-pointer flex flex-row items-center gap-2 ">
-                  <Image
-                    priority
-                    src={cursorIcon}
-                    height={20}
-                    width={20}
-                    alt="Cursor icon"
-                  />
-                  {operation.operation_name}
-                </p>
+            {metric.operations.map((operation, index) => (
+              <DropdownMenuLabel key={index}>
+                <div className="group">
+                  <p className="font-medium text-xs cursor-pointer flex flex-row items-center gap-2 group-hover:bg-[#CFE2FD] group-hover:border group-hover:rounded-sm group-hover:p-3">
+                    <Image
+                      priority
+                      src={cursorIcon}
+                      height={20}
+                      width={20}
+                      alt="Cursor icon"
+                    />
+                    <span className="group-hover:hidden">
+                      {operation.operation_name}
+                    </span>
+                    <span className="hidden group-hover:flex">{`${operation.operation_description} for ${metric.contract_name} (${metric.contract_type} on ${metric.contract_chain_name})`}</span>
+                  </p>
+                </div>
               </DropdownMenuLabel>
             ))}
           </div>
+
           <DropdownMenuSeparator />
           <DropdownMenuLabel className="cursor-pointer">
             {" "}
