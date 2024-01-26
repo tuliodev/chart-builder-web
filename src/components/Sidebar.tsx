@@ -85,6 +85,7 @@ export default function SiderBar() {
                         metric_display_name={metric.metric_display_name}
                         contract_name={data.name}
                         contract_type={data.contract_type}
+                        contract_id={data.id}
                         operations={metric.operations}
                       />
                     ))}

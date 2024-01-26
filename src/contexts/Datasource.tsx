@@ -46,11 +46,23 @@ interface Metric {
   operations: Operation[];
 }
 
+interface SelectedOperation {
+  id: string;
+  metric_id: string;
+  contract_id: string;
+}
+
 interface ContextProps {
   currentDatasources: DataSource[];
   selectedDatasources: DataSource[];
   currentMetrics: Metric[];
+  selectedOperations: SelectedOperation[];
   handleSelectedDatasource: (id: string, checked: CheckedState) => void;
+  handleSelectedOperation: (
+    id: string,
+    metric_id: string,
+    contract_id: string,
+  ) => void;
 }
 
 interface ProviderProps {
@@ -68,6 +80,9 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
   );
 
   const [currentMetrics, setCurrentMetrics] = useState<Metric[]>([]);
+  const [selectedOperations, setSelectedOperations] = useState<
+    SelectedOperation[]
+  >([]);
 
   const handleSelectedDatasource = (id: string, checked: CheckedState) => {
     const isSelected = selectedDatasources.some((item) => item.id === id);
@@ -89,6 +104,36 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     }
   };
 
+  const handleSelectedOperation = (
+    id: string,
+    metric_id: string,
+    contract_id: string,
+  ) => {
+    const isSelected = selectedOperations.some(
+      (operation) =>
+        operation.id === id &&
+        operation.metric_id === metric_id &&
+        operation.contract_id === contract_id,
+    );
+
+    if (isSelected) {
+      const updatedOperations = selectedOperations.filter(
+        (operation) =>
+          !(
+            operation.id === id &&
+            operation.metric_id === metric_id &&
+            operation.contract_id === contract_id
+          ),
+      );
+
+      setSelectedOperations(updatedOperations);
+    } else {
+      const newOperation: SelectedOperation = { id, metric_id, contract_id };
+
+      setSelectedOperations([...selectedOperations, newOperation]);
+    }
+  };
+
   useEffect(() => {
     setCurrentDatasources(datasourceData.data);
     setCurrentMetrics(metricData.data.data);
@@ -100,7 +145,9 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
         currentDatasources,
         selectedDatasources,
         currentMetrics,
+        selectedOperations,
         handleSelectedDatasource,
+        handleSelectedOperation,
       }}
     >
       {children}

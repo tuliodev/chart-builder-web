@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 
 import { Input } from "./ui/input";
 
 import cursorIcon from "@/assets/img/icons/cursor-icon.svg";
 import searchIcon from "@/assets/img/icons/search-icon.svg";
+import whiteCursorIcon from "@/assets/img/icons/white-cursor-icon.svg";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DatasourceContext } from "@/contexts/Datasource";
 
 interface Operation {
   id: string;
@@ -34,10 +37,23 @@ interface MetricCardProps {
   contract_name: string;
   contract_type: string | null;
   contract_chain_name: string;
+  contract_id: string;
   operations: Operation[];
 }
 
 export default function MetricCard(metric: MetricCardProps) {
+  const { handleSelectedOperation, selectedOperations } =
+    useContext(DatasourceContext);
+  const handleOperationSelect = (
+    event: Event,
+    id: string,
+    metric_id: string,
+    contract_id: string,
+  ) => {
+    event.preventDefault();
+    handleSelectedOperation(id, metric_id, contract_id);
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -91,23 +107,54 @@ export default function MetricCard(metric: MetricCardProps) {
 
           <div className="overflow-y-scroll no-scrollbar h-40">
             {metric.operations.map((operation, index) => (
-              <DropdownMenuLabel key={index}>
-                <div className="group">
-                  <p className="font-medium text-xs cursor-pointer flex flex-row items-center gap-2 group-hover:bg-[#CFE2FD] group-hover:border group-hover:rounded-sm group-hover:p-3">
-                    <Image
-                      priority
-                      src={cursorIcon}
-                      height={20}
-                      width={20}
-                      alt="Cursor icon"
-                    />
-                    <span className="group-hover:hidden">
-                      {operation.operation_name}
-                    </span>
-                    <span className="hidden group-hover:flex">{`${operation.operation_description} for ${metric.contract_name} (${metric.contract_type} on ${metric.contract_chain_name})`}</span>
-                  </p>
-                </div>
-              </DropdownMenuLabel>
+              <DropdownMenuItem
+                key={index}
+                onSelect={(event: Event) =>
+                  handleOperationSelect(
+                    event,
+                    operation.id,
+                    metric.id,
+                    metric.contract_id,
+                  )
+                }
+              >
+                {selectedOperations.some(
+                  (selectedOp) =>
+                    selectedOp.id === operation.id &&
+                    selectedOp.metric_id === metric.id &&
+                    selectedOp.contract_id === metric.contract_id,
+                ) ? (
+                  <div>
+                    <p className="font-medium text-xs text-[#F3F8FF] cursor-pointer flex flex-row items-center gap-2 bg-primary-blue border rounded-sm border-primary-blue p-3">
+                      <Image
+                        priority
+                        src={whiteCursorIcon}
+                        height={30}
+                        width={30}
+                        alt="Cursor icon"
+                      />
+                      <span className="">{`${operation.operation_description} for ${metric.contract_name} (${metric.contract_type} on ${metric.contract_chain_name})`}</span>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="group">
+                    <p className="font-medium text-xs cursor-pointer flex flex-row items-center gap-2 group-hover:bg-[#CFE2FD] group-hover:border group-hover:rounded-sm group-hover:border-[#CFE2FD] group-hover:p-3">
+                      <Image
+                        priority
+                        src={cursorIcon}
+                        height={20}
+                        width={20}
+                        alt="Cursor icon"
+                      />
+                      <span className="group-hover:hidden">
+                        {}
+                        {operation.operation_name}
+                      </span>
+                      <span className="hidden group-hover:flex">{`${operation.operation_description} for ${metric.contract_name} (${metric.contract_type} on ${metric.contract_chain_name})`}</span>
+                    </p>
+                  </div>
+                )}
+              </DropdownMenuItem>
             ))}
           </div>
 
