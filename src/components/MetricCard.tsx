@@ -57,7 +57,7 @@ export default function MetricCard(metric: MetricCardProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="border-2 rounded-md p-3 w-full cursor-pointer hover:opacity-60">
+        <div className="border-2 rounded-md p-3 w-full cursor-pointer hover:opacity-60 bg-white">
           <div className="flex flex-col gap-4 w-full">
             <div
               key={metric.id}
