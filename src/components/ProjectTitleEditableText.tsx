@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+
+import { DatasourceContext } from "@/contexts/Datasource";
 
 interface EditableTextProps {
   initialText: string;
@@ -7,18 +9,40 @@ interface EditableTextProps {
 const ProjectTitleEditableText: React.FC<EditableTextProps> = ({
   initialText,
 }) => {
-  const [text, setText] = useState(initialText);
+  const { currentProjectInfo, setProjectInfo } = useContext(DatasourceContext);
+  const editableRef = useRef<HTMLDivElement>(null);
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLDivElement>) => {
-    setText(e.target.textContent || "");
-  };
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault(); // Prevents adding a new line
+        editableRef.current?.blur(); // Blur to exit contentEditable
+      }
+    };
+
+    const handleInput = () => {
+      const title = editableRef.current?.textContent || "";
+      setProjectInfo({
+        description: currentProjectInfo.description,
+        title,
+      });
+    };
+
+    editableRef.current?.addEventListener("keydown", handleKeyDown);
+    editableRef.current?.addEventListener("input", handleInput);
+
+    return () => {
+      editableRef.current?.removeEventListener("keydown", handleKeyDown);
+      editableRef.current?.removeEventListener("input", handleInput);
+    };
+  }, [currentProjectInfo.description, setProjectInfo]);
 
   return (
     <div
+      ref={editableRef}
       className="cursor-text border-none outline-none font-semibold text-base"
       contentEditable
-      onBlur={handleTextChange}
-      dangerouslySetInnerHTML={{ __html: text }}
+      dangerouslySetInnerHTML={{ __html: initialText }}
     />
   );
 };

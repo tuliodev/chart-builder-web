@@ -57,12 +57,19 @@ interface ContextProps {
   selectedDatasources: DataSource[];
   currentMetrics: Metric[];
   selectedOperations: SelectedOperation[];
+  currentProjectInfo: Project;
   handleSelectedDatasource: (id: string, checked: CheckedState) => void;
   handleSelectedOperation: (
     id: string,
     metric_id: string,
     contract_id: string,
   ) => void;
+  setProjectInfo: (data: Project) => void;
+}
+
+interface Project {
+  title: string;
+  description: string;
 }
 
 interface ProviderProps {
@@ -83,6 +90,11 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
   const [selectedOperations, setSelectedOperations] = useState<
     SelectedOperation[]
   >([]);
+
+  const [currentProjectInfo, setCurrentProjectInfo] = useState<Project>({
+    title: "Untitled",
+    description: "+ Add description..",
+  });
 
   const handleSelectedDatasource = (id: string, checked: CheckedState) => {
     const isSelected = selectedDatasources.some((item) => item.id === id);
@@ -139,6 +151,13 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     }
   };
 
+  const setProjectInfo = (data: Project) => {
+    setCurrentProjectInfo({
+      description: data.description,
+      title: data.title,
+    });
+  };
+
   useEffect(() => {
     setCurrentDatasources(datasourceData.data);
     setCurrentMetrics(metricData.data.data);
@@ -151,8 +170,10 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
         selectedDatasources,
         currentMetrics,
         selectedOperations,
+        currentProjectInfo,
         handleSelectedDatasource,
         handleSelectedOperation,
+        setProjectInfo,
       }}
     >
       {children}
