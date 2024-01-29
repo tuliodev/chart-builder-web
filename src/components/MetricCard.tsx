@@ -49,9 +49,11 @@ export default function MetricCard(metric: MetricCardProps) {
     id: string,
     metric_id: string,
     contract_id: string,
+    field: string,
+    operation: string,
   ) => {
     event.preventDefault();
-    handleSelectedOperation(id, metric_id, contract_id);
+    handleSelectedOperation(id, metric_id, contract_id, field, operation);
   };
 
   return (
@@ -115,6 +117,8 @@ export default function MetricCard(metric: MetricCardProps) {
                     operation.id,
                     metric.id,
                     metric.contract_id,
+                    operation.field,
+                    operation.operation,
                   )
                 }
               >

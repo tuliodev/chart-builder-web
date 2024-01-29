@@ -2,7 +2,9 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { CheckedState } from "@radix-ui/react-checkbox";
 
+import giostoneChartData from "../services/api/battle_for_giostone_chart_data.json";
 import datasourceData from "../services/api/datasource.json";
+import honTokenChartData from "../services/api/hon_token_chart_data.json";
 import metricData from "../services/api/metrics.json";
 
 interface DataSource {
@@ -50,6 +52,10 @@ interface SelectedOperation {
   id: string;
   metric_id: string;
   contract_id: string;
+  field: string;
+  operation: string;
+  series: Record<string, number>;
+  active: true;
 }
 
 interface ContextProps {
@@ -63,6 +69,8 @@ interface ContextProps {
     id: string,
     metric_id: string,
     contract_id: string,
+    field: string,
+    operation: string,
   ) => void;
   setProjectInfo: (data: Project) => void;
 }
@@ -121,10 +129,65 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     }
   };
 
+  function checkMetadata(
+    metric_id: string,
+    contract_id: string,
+    field: string,
+    operation: string,
+  ): string | false {
+    const findContractName = (chartData: any) => {
+      const metadata = chartData.data.metadata;
+
+      for (const metricName in metadata) {
+        const metricMetadata = metadata[metricName];
+        if (
+          metricMetadata.metric_id === metric_id &&
+          metricMetadata.contract_id === contract_id &&
+          metricMetadata.field === field &&
+          metricMetadata.operation === operation
+        ) {
+          return chartData.data.series["A: Transfer ERC-20"];
+        }
+      }
+
+      return false;
+    };
+
+    const giostoneContractName = findContractName(giostoneChartData);
+    const honTokenContractName = findContractName(honTokenChartData);
+
+    if (giostoneContractName) {
+      return giostoneContractName;
+    } else if (honTokenContractName) {
+      return honTokenContractName;
+    } else {
+      alert("Doesn't have chart data");
+      return false;
+    }
+  }
+
+  const formatDate = (timestamp: number): string => {
+    const date = new Date(timestamp);
+    return date.toISOString().split("T")[0];
+  };
+
+  const formatChartData = (series: any): Record<string, number> => {
+    const formattedSeries: Record<string, number> = {};
+
+    for (const timestamp in series) {
+      const formattedDate = formatDate(Number(timestamp));
+      formattedSeries[formattedDate] = series[timestamp];
+    }
+
+    return formattedSeries;
+  };
+
   const handleSelectedOperation = (
     id: string,
     metric_id: string,
     contract_id: string,
+    field: string,
+    operation: string,
   ) => {
     const isSelected = selectedOperations.some(
       (operation) =>
@@ -133,21 +196,34 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
         operation.contract_id === contract_id,
     );
 
-    if (isSelected) {
-      const updatedOperations = selectedOperations.filter(
-        (operation) =>
-          !(
-            operation.id === id &&
-            operation.metric_id === metric_id &&
-            operation.contract_id === contract_id
-          ),
-      );
+    const chartData = checkMetadata(metric_id, contract_id, field, operation);
 
-      setSelectedOperations(updatedOperations);
-    } else {
-      const newOperation: SelectedOperation = { id, metric_id, contract_id };
+    if (chartData) {
+      if (isSelected) {
+        const updatedOperations = selectedOperations.filter(
+          (operation) =>
+            !(
+              operation.id === id &&
+              operation.metric_id === metric_id &&
+              operation.contract_id === contract_id
+            ),
+        );
 
-      setSelectedOperations([...selectedOperations, newOperation]);
+        setSelectedOperations(updatedOperations);
+      } else {
+        const series = formatChartData(chartData);
+        const newOperation: SelectedOperation = {
+          id,
+          metric_id,
+          contract_id,
+          field,
+          operation,
+          series,
+          active: true,
+        };
+
+        setSelectedOperations([...selectedOperations, newOperation]);
+      }
     }
   };
 
@@ -162,6 +238,10 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     setCurrentDatasources(datasourceData.data);
     setCurrentMetrics(metricData.data.data);
   }, []);
+
+  useEffect(() => {
+    console.log(selectedOperations);
+  }, [selectedOperations]);
 
   return (
     <DatasourceContext.Provider
