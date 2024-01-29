@@ -4,10 +4,10 @@ export default function TimeFilter() {
       <p className="text-xs text-[#2D3748] font-semibold px-6 py-2.5 hover:opacity-75 cursor-pointer">
         Custom
       </p>
-      <p className="text-xs text-[#2D3748] font-semibold border-l rounded-l-sm px-6 py-2.5 bg-[#E2E8F0] hover:opacity-75 cursor-pointer">
+      <p className="text-xs text-[#2D3748] font-semibold border-r border-l px-6 py-2.5 hover:opacity-75 cursor-pointer">
         Today
       </p>
-      <p className="text-xs text-[#2D3748] font-semibold border-r border-l px-6 py-2.5  hover:opacity-75 cursor-pointer">
+      <p className="text-xs text-[#2D3748] font-semibold border-r  px-6 py-2.5  hover:opacity-75 cursor-pointer">
         Yesterday
       </p>
       <p className="text-xs text-[#2D3748] font-semibold border-r px-6 py-2.5 hover:opacity-75 cursor-pointer">
@@ -19,10 +19,11 @@ export default function TimeFilter() {
       <p className="text-xs text-[#2D3748] font-semibold border-r px-6 py-2.5 hover:opacity-75 cursor-pointer">
         3M
       </p>
-      <p className="text-xs text-[#2D3748] font-semibold border-r px-6 py-2.5 hover:opacity-75 cursor-pointer">
+      <p className="text-xs text-[#2D3748] font-semibold border-l px-6 py-2.5 hover:opacity-75 cursor-pointer">
         6M
       </p>
-      <p className="text-xs text-[#2D3748] font-semibold border-r px-6 py-2.5 hover:opacity-75 cursor-pointer">
+
+      <p className="text-xs text-[#2D3748] font-semibold border-l rounded-l-sm px-6 py-2.5 bg-[#E2E8F0] hover:opacity-75 cursor-pointer">
         12M
       </p>
     </div>

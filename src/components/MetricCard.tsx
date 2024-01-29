@@ -38,6 +38,7 @@ interface MetricCardProps {
   contract_type: string | null;
   contract_chain_name: string;
   contract_id: string;
+  symbol: string;
   operations: Operation[];
 }
 
@@ -51,9 +52,21 @@ export default function MetricCard(metric: MetricCardProps) {
     contract_id: string,
     field: string,
     operation: string,
+    chain_name: string,
+    metric_display_name: string,
+    symbol: string,
   ) => {
     event.preventDefault();
-    handleSelectedOperation(id, metric_id, contract_id, field, operation);
+    handleSelectedOperation(
+      id,
+      metric_id,
+      contract_id,
+      field,
+      operation,
+      chain_name,
+      metric_display_name,
+      symbol,
+    );
   };
 
   return (
@@ -119,6 +132,9 @@ export default function MetricCard(metric: MetricCardProps) {
                     metric.contract_id,
                     operation.field,
                     operation.operation,
+                    metric.contract_chain_name,
+                    metric.metric_display_name,
+                    metric.symbol,
                   )
                 }
               >

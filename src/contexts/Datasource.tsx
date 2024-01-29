@@ -48,14 +48,22 @@ interface Metric {
   operations: Operation[];
 }
 
+interface ChartSerie {
+  x: string;
+  y: number;
+}
+
 interface SelectedOperation {
   id: string;
   metric_id: string;
   contract_id: string;
   field: string;
   operation: string;
-  series: Record<string, number>;
+  series: ChartSerie[];
   active: true;
+  chain_name: string;
+  metric_display_name: string;
+  symbol: string;
 }
 
 interface ContextProps {
@@ -71,6 +79,9 @@ interface ContextProps {
     contract_id: string,
     field: string,
     operation: string,
+    chain_name: string,
+    metric_display_name: string,
+    symbol: string,
   ) => void;
   setProjectInfo: (data: Project) => void;
 }
@@ -171,15 +182,19 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     return date.toISOString().split("T")[0];
   };
 
-  const formatChartData = (series: any): Record<string, number> => {
-    const formattedSeries: Record<string, number> = {};
+  const formatChartData = (series: any): ChartSerie[] => {
+    let seriesData: ChartSerie[] = [];
 
     for (const timestamp in series) {
       const formattedDate = formatDate(Number(timestamp));
-      formattedSeries[formattedDate] = series[timestamp];
+
+      seriesData.push({
+        x: formattedDate,
+        y: Math.floor(series[timestamp]),
+      });
     }
 
-    return formattedSeries;
+    return seriesData;
   };
 
   const handleSelectedOperation = (
@@ -188,6 +203,9 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     contract_id: string,
     field: string,
     operation: string,
+    chain_name: string,
+    metric_display_name: string,
+    symbol: string,
   ) => {
     const isSelected = selectedOperations.some(
       (operation) =>
@@ -220,6 +238,9 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
           operation,
           series,
           active: true,
+          chain_name,
+          metric_display_name,
+          symbol,
         };
 
         setSelectedOperations([...selectedOperations, newOperation]);

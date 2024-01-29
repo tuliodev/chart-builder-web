@@ -89,6 +89,7 @@ export default function SiderBar() {
                         contract_name={data.name}
                         contract_type={data.contract_type}
                         contract_id={data.id}
+                        symbol={data.symbol}
                         operations={metric.operations}
                       />
                     ))}
