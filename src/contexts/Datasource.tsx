@@ -239,10 +239,6 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     setCurrentMetrics(metricData.data.data);
   }, []);
 
-  useEffect(() => {
-    console.log(selectedOperations);
-  }, [selectedOperations]);
-
   return (
     <DatasourceContext.Provider
       value={{
