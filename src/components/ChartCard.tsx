@@ -1,5 +1,6 @@
 import { useContext } from "react";
 
+import ChartEventsTable from "./ChartEventsTable";
 import LineChart from "./LineChart";
 
 import { DatasourceContext } from "@/contexts/Datasource";
@@ -18,9 +19,10 @@ export default function ChartCard() {
           </p>
         </div>
       </div>
-      <div className="w-full h-[300px] mt-10">
+      <div className="w-full h-[300px] mt-5">
         <LineChart />
       </div>
+      <ChartEventsTable />
     </div>
   );
 }
