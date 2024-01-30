@@ -163,11 +163,26 @@ export default function ChartEventsTable() {
     return columns;
   }, [currentColumns]);
 
-  const [rowSelection, setRowSelection] = React.useState({});
-
   const transformedData = React.useMemo(() => {
     return transformSelectedOperationsToEvents(selectedOperations);
   }, [selectedOperations]);
+  const initialRowSelection = React.useMemo(() => {
+    const initialSelection: any = {};
+    transformedData.forEach((row, index) => {
+      initialSelection[index] = true;
+    });
+    return initialSelection;
+  }, [transformedData]);
+
+  const [rowSelection, setRowSelection] = React.useState(initialRowSelection);
+
+  React.useEffect(() => {
+    const newIndex = transformedData.length;
+    setRowSelection((prevSelection: any) => ({
+      ...prevSelection,
+      [newIndex]: true,
+    }));
+  }, [transformedData]);
 
   const table = useReactTable({
     data: transformedData,
