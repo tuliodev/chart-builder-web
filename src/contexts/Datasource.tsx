@@ -57,13 +57,15 @@ interface SelectedOperation {
   id: string;
   metric_id: string;
   contract_id: string;
+  contract_name: string;
   field: string;
   operation: string;
   series: ChartSerie[];
-  active: true;
+  active: boolean;
   chain_name: string;
   metric_display_name: string;
   symbol: string;
+  code: string;
 }
 
 interface ContextProps {
@@ -73,10 +75,16 @@ interface ContextProps {
   selectedOperations: SelectedOperation[];
   currentProjectInfo: Project;
   handleSelectedDatasource: (id: string, checked: CheckedState) => void;
+  handleSelectedChartData: (
+    ids: string[],
+    checked: boolean,
+    selectAll: boolean,
+  ) => void;
   handleSelectedOperation: (
     id: string,
     metric_id: string,
     contract_id: string,
+    contract_name: string,
     field: string,
     operation: string,
     chain_name: string,
@@ -140,6 +148,35 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     }
   };
 
+  const handleSelectedChartData = (
+    ids: string[],
+    checked: boolean,
+    selectAll: boolean = false,
+  ) => {
+    let updatedOperations: SelectedOperation[];
+
+    if (selectAll) {
+      updatedOperations = selectedOperations.map((operation) => ({
+        ...operation,
+        active: checked,
+      }));
+    } else {
+      updatedOperations = selectedOperations.map((operation) => {
+        if (ids.includes(operation.code)) {
+          return {
+            ...operation,
+            active: checked,
+          };
+        }
+        return operation;
+      });
+    }
+
+    setSelectedOperations(
+      updatedOperations.filter(Boolean) as SelectedOperation[],
+    );
+  };
+
   function checkMetadata(
     metric_id: string,
     contract_id: string,
@@ -201,6 +238,7 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     id: string,
     metric_id: string,
     contract_id: string,
+    contract_name: string,
     field: string,
     operation: string,
     chain_name: string,
@@ -234,6 +272,7 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
           id,
           metric_id,
           contract_id,
+          contract_name,
           field,
           operation,
           series,
@@ -241,6 +280,7 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
           chain_name,
           metric_display_name,
           symbol,
+          code: `${id}${operation}${contract_name}`,
         };
 
         setSelectedOperations([...selectedOperations, newOperation]);
@@ -269,6 +309,7 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
         selectedOperations,
         currentProjectInfo,
         handleSelectedDatasource,
+        handleSelectedChartData,
         handleSelectedOperation,
         setProjectInfo,
       }}

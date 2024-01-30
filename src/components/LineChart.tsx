@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import dynamic from "next/dynamic";
 
 import { DatasourceContext } from "@/contexts/Datasource";
@@ -19,14 +19,16 @@ const theme = {
 const LineChart = () => {
   const { selectedOperations } = useContext(DatasourceContext);
   let data: any = [];
-  selectedOperations.map((operation): any => {
-    console.log(selectedOperations);
-    console.log(operation);
-    data.push({
-      data: operation.series,
-      id: `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`,
+  useMemo(() => {
+    selectedOperations.map((operation): any => {
+      if (operation.active) {
+        data.push({
+          data: operation.series,
+          id: `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`,
+        });
+      }
     });
-  });
+  }, [selectedOperations]);
 
   return (
     <ResponsiveLine
