@@ -3,6 +3,18 @@ import dynamic from "next/dynamic";
 
 import { DatasourceContext } from "@/contexts/Datasource";
 
+interface SeriesData {
+  x: string;
+  y: number;
+}
+
+interface LineChartData {
+  data: {
+    id: string;
+    data: SeriesData[];
+  }[];
+}
+
 interface LineChartProps {
   bottomRotation: number;
   fontSize: number;
@@ -18,21 +30,17 @@ const ResponsiveLine = dynamic(
 
 const LineChart = (chartData: LineChartProps) => {
   const { selectedOperations } = useContext(DatasourceContext);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<LineChartData>({ data: [] });
+
   useMemo(() => {
-    const activesOperations: any = [];
-    selectedOperations.map((operation): any => {
-      if (operation.active) {
-        const idPrefix = `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`;
+    const activesOperations: LineChartData["data"] = selectedOperations
+      .filter((operation) => operation.active)
+      .map((operation) => ({
+        id: `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`,
+        data: operation.series,
+      }));
 
-        activesOperations.push({
-          data: operation.series,
-          id: idPrefix,
-        });
-      }
-
-      setData(activesOperations);
-    });
+    setData({ data: activesOperations });
   }, [selectedOperations]);
 
   const theme = {
@@ -45,7 +53,7 @@ const LineChart = (chartData: LineChartProps) => {
 
   return (
     <ResponsiveLine
-      data={data}
+      data={data.data}
       theme={theme}
       animate
       axisBottom={{
@@ -55,8 +63,6 @@ const LineChart = (chartData: LineChartProps) => {
         tickRotation: chartData.bottomRotation,
       }}
       axisLeft={{
-        legend: "",
-        legendOffset: 12,
         tickSize: 0,
         tickPadding: 20,
         tickValues: 5,
@@ -66,7 +72,6 @@ const LineChart = (chartData: LineChartProps) => {
         bottom: 60,
         left: chartData.marginLeft,
         right: chartData.marginRight,
-
         top: 50,
       }}
       enablePoints={false}

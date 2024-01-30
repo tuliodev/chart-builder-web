@@ -54,12 +54,10 @@ export default function ChartCard() {
               </p>
             </div>
           </div>
-          <div className="w-full sm:w-full h-[300px] mt-5 flex justify-start items-center">
+          <div className="h-[300px] mt-5 flex justify-start items-center">
             <LineChart {...lineChartProps} />
           </div>
-          <div className="flex justify-start items-center ">
-            <ChartEventsTable />
-          </div>
+          <ChartEventsTable />
         </div>
       ) : (
         <h1>No data</h1>

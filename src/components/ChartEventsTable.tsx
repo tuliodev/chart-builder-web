@@ -117,6 +117,7 @@ export default function ChartEventsTable() {
         ),
         cell: ({ row }) => (
           <Checkbox
+            className="flex items-center justify-center"
             checked={row.getIsSelected()}
             onCheckedChange={(value) => {
               if (typeof row.original.id !== "number") {
@@ -132,22 +133,23 @@ export default function ChartEventsTable() {
       },
       {
         accessorKey: "events",
-        size: 270,
         header: ({}) => (
-          <div className="flex flex-row items-center cursor-pointer hover:opacity-60">
+          <div className="flex flex-row items-center cursor-pointer hover:opacity-60 ml-2 w-[250px]">
             Events (2)
             <ChevronDown className="ml-2 h-4 w-4" />
           </div>
         ),
         cell: ({ row }) => (
-          <div className="text-left">{row.getValue("events")}</div>
+          <div className="text-left font-normal text-sm ml-2 text-[#4A5568]">
+            {row.getValue("events")}
+          </div>
         ),
       },
       {
         accessorKey: "average",
-        header: "Average",
+        header: ({}) => <div className="w-[70px]">Average</div>,
         cell: ({ row }) => (
-          <div className="text-center text-sm font-normal text-[#4A5568]">
+          <div className="text-right text-sm font-normal text-[#4A5568] mr-2">
             {row.getValue("average")}
           </div>
         ),
@@ -159,9 +161,9 @@ export default function ChartEventsTable() {
       currentColumns.forEach((col: ColumnData, index) => {
         columns.push({
           accessorKey: col.key,
-          header: col.x,
+          header: ({}) => <span className="px-5 text-center">{col.x}</span>,
           cell: ({ row }) => (
-            <div className="text-center text-sm font-normal text-[#4A5568]">
+            <div className="text-right text-sm font-normal text-[#4A5568] px-5">
               {row.original[col.x]}
             </div>
           ),
@@ -209,16 +211,21 @@ export default function ChartEventsTable() {
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const columnId = header.column.id;
+                const cellClassName = columnId === "average" ? "border-r" : "";
+
+                return (
+                  <TableHead key={header.id} className={cellClassName}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                );
+              })}
             </TableRow>
           ))}
         </TableHeader>
@@ -229,11 +236,20 @@ export default function ChartEventsTable() {
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const columnId = cell.column.id;
+                  const cellClassName =
+                    columnId === "average" ? "border-r" : "";
+
+                  return (
+                    <TableCell key={cell.id} className={cellClassName}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
