@@ -46,15 +46,23 @@ interface ColumnData {
 function transformSelectedOperationsToEvents(
   selectedOperations: SelectedOperation[],
 ): Event[] {
-  return selectedOperations.map((operation) => ({
-    id: operation.code,
-    events: `${operation.metric_display_name} ${operation.contract_name}`,
-    average: 5,
-    ...operation.series.reduce((acc: any, dataPoint: any) => {
-      acc[format(parseISO(dataPoint.x), "MMM d")] = dataPoint.y;
-      return acc;
-    }, {}),
-  }));
+  return selectedOperations.map((operation) => {
+    const seriesValues = operation.series.map((dataPoint: any) => dataPoint.y);
+    const average = Math.floor(
+      seriesValues.reduce((sum: number, value: number) => sum + value, 0) /
+        seriesValues.length,
+    );
+
+    return {
+      id: operation.code,
+      events: `${operation.metric_display_name} ${operation.contract_name}`,
+      average: isNaN(average) ? 0 : average,
+      ...operation.series.reduce((acc: any, dataPoint: any) => {
+        acc[format(parseISO(dataPoint.x), "MMM d")] = dataPoint.y;
+        return acc;
+      }, {}),
+    };
+  });
 }
 
 export default function ChartEventsTable() {
