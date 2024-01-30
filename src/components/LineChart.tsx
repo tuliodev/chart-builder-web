@@ -1,34 +1,47 @@
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 
 import { DatasourceContext } from "@/contexts/Datasource";
+
+interface LineChartProps {
+  bottomRotation: number;
+  fontSize: number;
+  marginLeft: number;
+  marginRight: number;
+  enableLegends: boolean;
+}
 
 const ResponsiveLine = dynamic(
   () => import("@nivo/line").then((module) => module.ResponsiveLine),
   { ssr: false },
 );
 
-const theme = {
-  text: {
-    fontSize: "12px",
-    fill: "#4A5568",
-    fontWeight: "normal",
-  },
-};
-
-const LineChart = () => {
+const LineChart = (chartData: LineChartProps) => {
   const { selectedOperations } = useContext(DatasourceContext);
-  let data: any = [];
+  const [data, setData] = useState<any>([]);
   useMemo(() => {
+    const activesOperations: any = [];
     selectedOperations.map((operation): any => {
       if (operation.active) {
-        data.push({
+        const idPrefix = `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`;
+
+        activesOperations.push({
           data: operation.series,
-          id: `A. ${operation.symbol}_${operation.chain_name} / ${operation.metric_display_name}_${operation.operation}`,
+          id: idPrefix,
         });
       }
+
+      setData(activesOperations);
     });
   }, [selectedOperations]);
+
+  const theme = {
+    text: {
+      fontSize: chartData.fontSize,
+      fill: "#4A5568",
+      fontWeight: "normal",
+    },
+  };
 
   return (
     <ResponsiveLine
@@ -39,6 +52,7 @@ const LineChart = () => {
         format: "%b %d",
         tickSize: 0,
         tickPadding: 25,
+        tickRotation: chartData.bottomRotation,
       }}
       axisLeft={{
         legend: "",
@@ -50,8 +64,9 @@ const LineChart = () => {
       curve="linear"
       margin={{
         bottom: 60,
-        left: 80,
-        right: 0,
+        left: chartData.marginLeft,
+        right: chartData.marginRight,
+
         top: 50,
       }}
       enablePoints={false}
@@ -84,18 +99,21 @@ const LineChart = () => {
         "#FFC857",
       ]}
       enableCrosshair={false}
-      legends={[
-        {
-          anchor: "top",
-          direction: "row",
-
-          itemHeight: 100,
-          itemWidth: 300,
-          translateX: 0,
-          translateY: -90,
-          itemsSpacing: 60,
-        },
-      ]}
+      legends={
+        chartData.enableLegends
+          ? [
+              {
+                anchor: "top",
+                direction: "row",
+                itemHeight: 100,
+                itemWidth: 300,
+                translateX: 0,
+                translateY: -90,
+                itemsSpacing: 60,
+              },
+            ]
+          : []
+      }
     />
   );
 };

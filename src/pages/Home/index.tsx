@@ -8,7 +8,7 @@ export default function Home() {
     <div>
       <Header />
       <SubHeader />
-      <div className="flex flex-row overflow-y-scroll no-scrollbar">
+      <div className="h-screen flex overflow-y-scroll no-scrollbar">
         <SiderBar />
         <Dashboard />
       </div>

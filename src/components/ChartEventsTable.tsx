@@ -132,6 +132,7 @@ export default function ChartEventsTable() {
       },
       {
         accessorKey: "events",
+        size: 270,
         header: ({}) => (
           <div className="flex flex-row items-center cursor-pointer hover:opacity-60">
             Events (2)
@@ -203,7 +204,7 @@ export default function ChartEventsTable() {
   });
 
   return (
-    <div>
+    <div className="max-w-screen-lg">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -239,7 +240,7 @@ export default function ChartEventsTable() {
             <TableRow>
               <TableCell
                 colSpan={dynamicColumns.length}
-                className="h-24 align-middle text-center"
+                className="h-15 align-middle text-center"
               >
                 No results.
               </TableCell>
