@@ -217,7 +217,7 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
         title: "Doesn't have chart data",
         description: "Please select other metric operation",
         variant: "default",
-        duration: 2500,
+        duration: 2000,
       });
 
       return false;
