@@ -1,5 +1,7 @@
 import React from "react";
 
+import { LineChartIcon } from "lucide-react";
+
 import ChartEventsTable from "./ChartEventsTable";
 import LineChart from "./LineChart";
 
@@ -60,7 +62,15 @@ export default function ChartCard() {
           <ChartEventsTable />
         </div>
       ) : (
-        <h1>No data</h1>
+        <div className="w-full flex flex-col items-center justify-center mt-2 sm:mt-20">
+          <LineChartIcon height={300} width={300} color="#CBD5E0" />
+          <p className="text-lg font-semibold text-primary-neutral">
+            Add a Data Source and a Metric to get started.
+          </p>
+          <p className="text-lg font-light text-[#A0AEC0]">
+            (see left menu for options).
+          </p>
+        </div>
       )}
     </div>
   );
