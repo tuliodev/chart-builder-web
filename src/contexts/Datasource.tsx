@@ -7,6 +7,8 @@ import datasourceData from "../services/api/datasource.json";
 import honTokenChartData from "../services/api/hon_token_chart_data.json";
 import metricData from "../services/api/metrics.json";
 
+import { useToast } from "@/components/ui/use-toast";
+
 interface DataSource {
   id: string;
   chain_id: string;
@@ -177,6 +179,8 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     );
   };
 
+  const { toast } = useToast();
+
   function checkMetadata(
     metric_id: string,
     contract_id: string,
@@ -209,7 +213,13 @@ export function DatasourceContextProvider({ children }: ProviderProps) {
     } else if (honTokenContractName) {
       return honTokenContractName;
     } else {
-      alert("Doesn't have chart data");
+      toast({
+        title: "Doesn't have chart data",
+        description: "Please select other metric operation",
+        variant: "default",
+        duration: 2500,
+      });
+
       return false;
     }
   }

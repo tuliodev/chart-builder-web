@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Inter as FontSans } from "next/font/google";
 
+import { Toaster } from "./ui/toaster";
+
 const fontSans = FontSans({
   subsets: ["latin"],
 });
@@ -15,6 +17,7 @@ export default function Layout({ children }: LayoutProps) {
       className={`h-screen w-screen ${fontSans.className} overflow-x-hidden overflow-y-auto no-scrollbar `}
     >
       {children}
+      <Toaster />
     </main>
   );
 }
