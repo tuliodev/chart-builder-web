@@ -59,7 +59,7 @@ export default function UserSettingsMenu() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuLabel>
-            <p className="font-medium text-xs text-[#4A5568] hover:opacity-75 cursor-pointer">
+            <p className="font-medium text-xs text-primary-neutral hover:opacity-75 cursor-pointer">
               Shortcuts
             </p>
           </DropdownMenuLabel>

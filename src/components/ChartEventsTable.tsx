@@ -140,7 +140,7 @@ export default function ChartEventsTable() {
           </div>
         ),
         cell: ({ row }) => (
-          <div className="text-left font-normal text-sm ml-2 text-[#4A5568]">
+          <div className="text-left font-normal text-sm ml-2 text-primary-neutral">
             {row.getValue("events")}
           </div>
         ),
@@ -149,7 +149,7 @@ export default function ChartEventsTable() {
         accessorKey: "average",
         header: ({}) => <div className="w-[70px]">Average</div>,
         cell: ({ row }) => (
-          <div className="text-right text-sm font-normal text-[#4A5568] mr-2">
+          <div className="text-right text-sm font-normal text-primary-neutral mr-2">
             {row.getValue("average")}
           </div>
         ),
@@ -163,7 +163,7 @@ export default function ChartEventsTable() {
           accessorKey: col.key,
           header: ({}) => <span className="px-5 text-center">{col.x}</span>,
           cell: ({ row }) => (
-            <div className="text-right text-sm font-normal text-[#4A5568] px-5">
+            <div className="text-right text-sm font-normal text-primary-neutral px-5">
               {row.original[col.x]}
             </div>
           ),

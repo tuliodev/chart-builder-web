@@ -66,7 +66,7 @@ export default function SiderBar() {
                   );
                 })}
               </div>
-              <p className="text-s font-normal text-[#4A5568] hover:opacity-75 cursor-pointer text-center mt-3">
+              <p className="text-s font-normal text-primary-neutral hover:opacity-75 cursor-pointer text-center mt-3">
                 Add new datasource
               </p>
             </div>

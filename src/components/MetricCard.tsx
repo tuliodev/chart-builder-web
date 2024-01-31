@@ -116,7 +116,7 @@ export default function MetricCard(metric: MetricCardProps) {
                 />
               </div>
 
-              <p className="text-[#4A5568] text-xs font-normal ml-0.5 cursor-pointer hover:opacity-65">
+              <p className="text-primary-neutral text-xs font-normal ml-0.5 cursor-pointer hover:opacity-65">
                 Show all events
               </p>
             </div>
@@ -184,7 +184,7 @@ export default function MetricCard(metric: MetricCardProps) {
           <DropdownMenuSeparator />
           <DropdownMenuLabel className="cursor-pointer">
             {" "}
-            <p className="font-normal text-xs mx-14 hover:opacity-75 text-center text-[#4A5568]">
+            <p className="font-normal text-xs mx-14 hover:opacity-75 text-center text-primary-neutral">
               Create custom
             </p>
           </DropdownMenuLabel>

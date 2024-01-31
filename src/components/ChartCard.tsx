@@ -49,7 +49,7 @@ export default function ChartCard() {
               <p className="text-sm font-semibold text-[#1A202C]">
                 {currentProjectInfo.title}
               </p>
-              <p className="text-xs font-normal text-[#4A5568]">
+              <p className="text-xs font-normal text-primary-neutral">
                 {currentProjectInfo.description}
               </p>
             </div>
